@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
+
     private Scanner scanner = new Scanner(System.in);
     private Dealership dealership;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     public UserInterface(Dealership dealership) {
         this.dealership = dealership;
         init();
@@ -16,18 +20,24 @@ public class UserInterface {
     private void init() {
         DealershipFileManager fileManager = new DealershipFileManager();
         this.dealership = fileManager.getDealership();
+
+        if(this.dealership == null){
+            this.dealership = new Dealership();
+        }
     }
 
     public void display() {
         boolean running = true;
 
         while (running) {
+            System.out.println(ANSI_GREEN + "Dealership Menu");
+            System.out.println("-------------------" + ANSI_RESET);
             System.out.println("1. Find vehicles within price range");
             System.out.println("2. Find vehicles by make/model");
             System.out.println("3. Find vehicles by year range");
             System.out.println("4. Find vehicles by color");
             System.out.println("5. Find vehicles by mileage range");
-            System.out.println("6. Find vehicles by type (Car, Truck, SUV, Van)");
+            System.out.println("6. Find vehicles by type (Truck, SUV, Sedan)");
             System.out.println("7. List All vehicles");
             System.out.println("8. Add vehicle");
             System.out.println("9. Remove vehicle");
@@ -66,16 +76,16 @@ public class UserInterface {
                         processRemoveVehicleRequest();
                         break;
                     case 99:
-                        System.out.println("Goodbye.");
+                        System.out.println(ANSI_GREEN + "Goodbye." + ANSI_RESET);
                         running = false;
                         break;
 
                     default:
-                        System.out.println("Invalid option");
+                        System.out.println(ANSI_BLUE + "Invalid option" + ANSI_RESET);
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Not an option.");
+                System.out.println(ANSI_BLUE + "Not an option." + ANSI_RESET);
                 scanner.nextLine();
             }
         }
@@ -88,8 +98,9 @@ public class UserInterface {
         double max = scanner.nextDouble();
         scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max);
-
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
         }
@@ -101,6 +112,8 @@ public class UserInterface {
         System.out.println("Enter model: ");
         String model = scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model);
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -114,6 +127,8 @@ public class UserInterface {
         int max = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehicleByYear(min, max);
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -125,6 +140,8 @@ public class UserInterface {
         System.out.println("Enter color: ");
         String color = scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehiclesByColor(color);
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -138,6 +155,8 @@ public class UserInterface {
         int max = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehiclesByMileage(min, max);
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -148,6 +167,8 @@ public class UserInterface {
         System.out.println("Enter vehicle type: ");
         String vehicleType = scanner.nextLine();
 
+        System.out.println(ANSI_GREEN + "Matching vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getVehiclesByType(vehicleType);
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -155,6 +176,9 @@ public class UserInterface {
     }
 
     public void processGetAllVehiclesRequest() {
+
+        System.out.println(ANSI_GREEN + "All vehicles: ");
+        System.out.println("----------------------" + ANSI_RESET);
         List<Vehicle> vehicles = dealership.getAllVehicles();
         for (Vehicle vehicle : vehicles) {
             System.out.println(vehicle);
@@ -186,7 +210,7 @@ public class UserInterface {
 
         DealershipFileManager fileManager = new DealershipFileManager();
         fileManager.saveDealership(this.dealership);
-        System.out.println("Vehicle added successfully.");
+        System.out.println(ANSI_GREEN + "Vehicle added successfully." + ANSI_RESET);
     }
 
     public void processRemoveVehicleRequest() {
@@ -206,9 +230,9 @@ public class UserInterface {
 
             DealershipFileManager fileManager = new DealershipFileManager();
             fileManager.saveDealership(this.dealership);
-            System.out.println("Vehicle removed successfully.");
+            System.out.println(ANSI_GREEN + "Vehicle removed successfully." + ANSI_RESET);
         } else {
-            System.out.println("Vehicle with vin " + vin + " not found.");
+            System.out.println(ANSI_BLUE + "Vehicle with vin " + vin + " not found." + ANSI_RESET);
         }
     }
 }
