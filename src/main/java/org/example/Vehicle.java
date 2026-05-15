@@ -1,5 +1,7 @@
 package org.example;
 
+import java.math.BigDecimal;
+
 public class Vehicle {
     private int vin;
     private int year;
@@ -8,10 +10,10 @@ public class Vehicle {
     private String vehicleType;
     private String color;
     private int odometer;
-    private double price;
+    private BigDecimal price;
 
     public Vehicle(int vin, int year, String make, String model, String vehicleType,
-                   String color, int odometer, double price) {
+                   String color, int odometer, BigDecimal price) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -78,11 +80,11 @@ public class Vehicle {
         this.odometer = odometer;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
     public String toString(){

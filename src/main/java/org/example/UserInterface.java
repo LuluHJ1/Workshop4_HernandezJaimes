@@ -1,5 +1,6 @@
 package org.example;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -93,9 +94,9 @@ public class UserInterface {
 
     public void processGetByPriceRequest() {
         System.out.println("Enter minimum: ");
-        double min = scanner.nextDouble();
+        BigDecimal min = scanner.nextBigDecimal();
         System.out.println("Enter maximum: ");
-        double max = scanner.nextDouble();
+        BigDecimal max = scanner.nextBigDecimal();
         scanner.nextLine();
 
         System.out.println(ANSI_GREEN + "Matching vehicles: ");
@@ -202,7 +203,7 @@ public class UserInterface {
         System.out.println("Enter mileage: ");
         int odometer = scanner.nextInt();
         System.out.println("Enter price: ");
-        double price = scanner.nextDouble();
+        BigDecimal price = scanner.nextBigDecimal();
         scanner.nextLine();
 
         Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
