@@ -42,6 +42,7 @@ public class UserInterface {
             System.out.println("7. List All vehicles");
             System.out.println("8. Add vehicle");
             System.out.println("9. Remove vehicle");
+            System.out.println("10. Sell/Lease vehicle");
             System.out.println("99. Quit");
             System.out.println("Enter your choice: ");
             try {
@@ -75,6 +76,9 @@ public class UserInterface {
                         break;
                     case 9:
                         processRemoveVehicleRequest();
+                        break;
+                    case 10:
+                        processSellLeaseVehicle();
                         break;
                     case 99:
                         System.out.println(ANSI_GREEN + "Goodbye." + ANSI_RESET);
@@ -212,6 +216,10 @@ public class UserInterface {
         DealershipFileManager fileManager = new DealershipFileManager();
         fileManager.saveDealership(this.dealership);
         System.out.println(ANSI_GREEN + "Vehicle added successfully." + ANSI_RESET);
+    } public void processSellLeaseVehicle(){
+        System.out.println("Enter your full name: ");
+        String name = scanner.nextLine();
+
     }
 
     public void processRemoveVehicleRequest() {
