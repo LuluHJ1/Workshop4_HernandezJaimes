@@ -1,6 +1,8 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.rmi.dgc.Lease;
+import java.time.Year;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -216,11 +218,50 @@ public class UserInterface {
         DealershipFileManager fileManager = new DealershipFileManager();
         fileManager.saveDealership(this.dealership);
         System.out.println(ANSI_GREEN + "Vehicle added successfully." + ANSI_RESET);
+
     } public void processSellLeaseVehicle(){
         System.out.println("Enter your full name: ");
         String name = scanner.nextLine();
+        System.out.println("Enter email: ");
+        String email = scanner.nextLine();
+        System.out.println("Enter date: ");
+        String date = scanner.nextLine();
 
+        System.out.println("Enter vehicle VIN: ");
+        int vin = scanner.nextInt();
+        scanner.nextLine();
+
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
+
+        if(vehicle == null){
+            System.out.println("Vehicle not found.");
+            return;
+        }
+
+        System.out.println("Sale or Lease? (S/L): ");
+        String option = scanner.nextLine();
+
+        int currentYear = Year.now().getValue();
+        if(option.equalsIgnoreCase("L")){
+            if(currentYear - vehicle.getYear() > 3){
+                System.out.println("Vehicle is too old for lease.");
+                return;
+            }
+        }
+        System.out.println("Finance with loan? (yes/no: ");
+        boolean loan = scanner.nextLine().equalsIgnoreCase("yes");
+
+        Contract contract;
+
+        if(option.equalsIgnoreCase("L")){
+            contract = new LeaseContract(date, name, email, vehicle, loan);
+        }else {
+            contract = new SalesContract(date, name, email, vehicle, loan);
+        }
+        System.out.println("Total Price: $" + contract.getTotalPrice());
+        System.out.println("Monthly Payment: $" + contract.getMonthlyPayment());
     }
+
 
     public void processRemoveVehicleRequest() {
         System.out.println("Enter vin number: ");

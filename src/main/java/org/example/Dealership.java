@@ -87,6 +87,15 @@ public class Dealership {
         }
         return results;
     }
+    public Vehicle getVehicleByVin(int vin){
+
+        for(Vehicle v : inventory){
+            if(v.getVin() == vin) {
+                return v;
+            }
+        }
+        return null;
+    }
     public List<Vehicle> getVehiclesByMileage(int min, int max){
         List<Vehicle> results = new ArrayList<>();
         for(Vehicle v : inventory){
