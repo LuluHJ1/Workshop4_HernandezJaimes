@@ -1,7 +1,6 @@
 package org.example;
 
 import java.math.BigDecimal;
-import java.rmi.dgc.Lease;
 import java.time.Year;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -15,6 +14,7 @@ public class UserInterface {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_BLUE = "\u001B[34m";
+
     public UserInterface(Dealership dealership) {
         this.dealership = dealership;
         init();
@@ -24,7 +24,7 @@ public class UserInterface {
         DealershipFileManager fileManager = new DealershipFileManager();
         this.dealership = fileManager.getDealership();
 
-        if(this.dealership == null){
+        if (this.dealership == null) {
             this.dealership = new Dealership();
         }
     }
@@ -219,7 +219,9 @@ public class UserInterface {
         fileManager.saveDealership(this.dealership);
         System.out.println(ANSI_GREEN + "Vehicle added successfully." + ANSI_RESET);
 
-    } public void processSellLeaseVehicle(){
+    }
+
+    public void processSellLeaseVehicle() {
         System.out.println("Enter your full name: ");
         String name = scanner.nextLine();
         System.out.println("Enter email: ");
@@ -233,7 +235,7 @@ public class UserInterface {
 
         Vehicle vehicle = dealership.getVehicleByVin(vin);
 
-        if(vehicle == null){
+        if (vehicle == null) {
             System.out.println("Vehicle not found.");
             return;
         }
@@ -241,27 +243,31 @@ public class UserInterface {
         System.out.println("Sale or Lease? (S/L): ");
         String option = scanner.nextLine();
 
+        Contract contract;
+
         int currentYear = Year.now().getValue();
-        if(option.equalsIgnoreCase("L")){
-            if(currentYear - vehicle.getYear() > 3){
+        if (option.equalsIgnoreCase("L")) {
+            if (currentYear - vehicle.getYear() > 3) {
                 System.out.println("Vehicle is too old for lease.");
                 return;
             }
-        }
-        System.out.println("Finance with loan? (yes/no: ");
-        boolean loan = scanner.nextLine().equalsIgnoreCase("yes");
+            contract = new LeaseContract(date, name, email, vehicle);
 
-        Contract contract;
+        }else if(option.equalsIgnoreCase("S")) {
+            System.out.println("Finance with loan? (yes/no): ");
+            boolean loan = scanner.nextLine().equalsIgnoreCase("yes");
 
-        if(option.equalsIgnoreCase("L")){
-            contract = new LeaseContract(date, name, email, vehicle, loan);
-        }else {
             contract = new SalesContract(date, name, email, vehicle, loan);
+        }else{
+            System.out.println("Not valid option");
+            return;
         }
+
         System.out.println("Total Price: $" + contract.getTotalPrice());
         System.out.println("Monthly Payment: $" + contract.getMonthlyPayment());
-    }
 
+        dealership.removeVehicle(vehicle);
+    }
 
     public void processRemoveVehicleRequest() {
         System.out.println("Enter vin number: ");

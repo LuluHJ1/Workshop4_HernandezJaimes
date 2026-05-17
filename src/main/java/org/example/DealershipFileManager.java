@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.math.BigDecimal;
 
 public class DealershipFileManager {
     public static final String filePath = "src/main/resources/Inventory.csv";
@@ -43,7 +44,7 @@ public class DealershipFileManager {
                     String vehicleType = csvRow[4];
                     String color = csvRow[5];
                     int odometer = Integer.parseInt(csvRow[6]);
-                    double price = Double.parseDouble(csvRow[7]);
+                    BigDecimal price = new BigDecimal(csvRow[7]);
 
                     Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
                     dealership.addVehicle(vehicle);

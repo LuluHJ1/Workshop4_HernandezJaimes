@@ -20,7 +20,7 @@ public class SalesContract extends Contract {
        BigDecimal recordingFee = new BigDecimal("100.00");
        BigDecimal processingFee;
 
-       if(vehiclePrice.compareTo(new BigDecimal("10_000.00")) < 0) {
+       if(vehiclePrice.compareTo(new BigDecimal("10000.00")) < 0) {
            processingFee = new BigDecimal("295.00");
        }
        else {

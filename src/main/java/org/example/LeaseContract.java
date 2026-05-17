@@ -5,10 +5,10 @@ import java.math.RoundingMode;
 
 public class LeaseContract extends Contract{
 
-    private boolean loan;
-    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean loan) {
+
+    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
         super(date, customerName, customerEmail, vehicleSold);
-        this.loan = loan;
+
     }
 
     @Override
@@ -23,9 +23,6 @@ public class LeaseContract extends Contract{
     @Override
     public BigDecimal getMonthlyPayment() {
 
-        if(!loan) {
-            return BigDecimal.ZERO;
-        }
         BigDecimal price = getVehicleSold().getPrice();
 
         BigDecimal annualRate = new BigDecimal("0.04");
